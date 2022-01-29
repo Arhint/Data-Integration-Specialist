@@ -36,7 +36,10 @@ private class InstallationTests {
     
     //Test empty service stub
 	static testmethod void testProjectCalloutServiceForInstall() {
-	    ProjectCalloutService.postOpportunityToPMS();
+        Opportunity opp = [SELECT Id FROM Opportunity LIMIT 1][0];
+        List<Id> oppId = new List<Id>();
+        oppId.add(opp.id);
+	    ProjectCalloutService.postOpportunityToPMS(oppId);
 	}
 
 }

@@ -10,8 +10,6 @@ public class ProjectCalloutService {
         System.enqueueJob(new QueueablePMSCall(idOpps[0]));        
     }
 
-
-
     public with sharing class QueueablePMSCall implements System.Queueable, Database.AllowsCallouts {
 
         private Id idOpp;
@@ -30,9 +28,21 @@ public class ProjectCalloutService {
             Http http = new Http();
             HttpRequest request = new HttpRequest();
             request.setEndpoint('callout:ProjectService');
+            request.setMethod('POST');
             request.setHeader('Content-Type', 'application/json;charset=UTF-8');
             request.setHeader('token', token);
             request.setBody(makeJSONBody(opp));
+            try {
+                HttpResponse response = http.send(request);
+                if (response.getStatusCode() == 201) {
+                    opp.StageName = 'Submitted Project';
+                } else if (response.getStatusCode() == 500) {
+                    opp.StageName = 'Resubmit Project';
+                }
+                update opp;
+            } catch (Exception e) {
+                System.debug(e.getMessage());
+            }
         }
 
         private String makeJSONBody (Opportunity opp) {

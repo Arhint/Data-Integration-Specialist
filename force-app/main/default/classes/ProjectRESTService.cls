@@ -2,7 +2,13 @@
 global class ProjectRESTService {
     //   /services/apexrest/project/
     @HttpPost
-    global static String postProjectData(String ProjectRef, String ProjectName, String OpportunityId, Date StartDate, Date EndDate, Double Amount, String Status) {
+    global static String postProjectData(String ProjectRef,
+                                        String ProjectName,
+                                        String OpportunityId,
+                                        Date StartDate,
+                                        Date EndDate,
+                                        Double Amount,
+                                        String Status) {
 
         Savepoint sp = Database.setSavepoint();
 
@@ -25,7 +31,6 @@ global class ProjectRESTService {
             return 'OK';
 
         } catch (Exception e) {
-            System.debug(e.getMessage());
             Database.rollback(sp);
             return e.getMessage();
         }

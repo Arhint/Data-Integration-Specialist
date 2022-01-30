@@ -20,7 +20,7 @@ private class ProjectCalloutServiceTest {
         st.Token__c = 'qijncucqcnqiwcqjc';
         insert st;
     }
-      @isTEst
+      @isTest
       static void successTest() {
       
       Test.setMock(HttpCalloutMock.class, new ProjectCalloutServiceMock());
@@ -35,7 +35,7 @@ private class ProjectCalloutServiceTest {
       Opportunity oppUpdated = [SELECT Id, StageName FROM Opportunity][0];
       System.assertEquals('Submitted Project', oppUpdated.StageName);
     }
-    @isTEst
+    @isTest
     static void failTest() {
       
       Test.setMock(HttpCalloutMock.class, new ProjectCalloutServiceMockFailure());
